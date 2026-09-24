@@ -1,0 +1,5 @@
+# Scripts must keep Unix line endings or they break on Windows machines that check them out.
+*.sh   text eol=lf
+*.md   text eol=lf
+*.json text eol=lf
+*.py   text eol=lf

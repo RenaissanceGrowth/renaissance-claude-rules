@@ -1,0 +1,14 @@
+{
+  "name": "renaissance",
+  "owner": {
+    "name": "Renaissance Growth"
+  },
+  "description": "Renaissance Growth's company rules for Claude Code.",
+  "plugins": [
+    {
+      "name": "renaissance-rules",
+      "source": "./plugins/renaissance-rules",
+      "description": "Renaissance company rules for Claude Code: the rulebook at the start of every chat, reminders when a request touches Asana, Instantly or Slack, and two hard checks."
+    }
+  ]
+}
