@@ -6,6 +6,14 @@ CREATED BY CLAUDE for david-Claude Code, 2026-09-24; trimmed 2026-09-30. What it
 Claude Code. What it opens: nothing (it only adds rules text to a person's Claude). How to revoke: uninstall the
 plugin on each machine, or archive this repo so installed copies stop updating.
 
+## For Darcy: the three things you will actually do
+
+1. Change a rule yourself: open `plugins/renaissance-rules/RULEBOOK.md` on GitHub, click the pencil, edit, save ("Commit changes"). Every new chat everywhere has it from then on.
+2. Accept a proposal: when someone proposes a change, GitHub emails you a "pull request". Open it, read the change, click "Merge". Nothing merges without your click.
+3. Let your own Claude Code do the typing: tell it "add a rule to our company rulebook: <what happened and what the rule is>". The repo's CLAUDE.md tells it the format; you still click Merge.
+
+Anyone can propose, whether through their own Claude Code, on GitHub, or by telling you. To see whether someone has the plugin, ask their Claude "which rulebook version do you have?"
+
 ## Status (30 Sep 2026)
 
 - Built and tested. Not installed on anyone's machine yet.
@@ -24,19 +32,11 @@ plugin on each machine, or archive this repo so installed copies stop updating.
 Edit `plugins/renaissance-rules/RULEBOOK.md` on GitHub. Each rule is three lines:
 
     [R2] The rule, in one sentence. If information is missing, say "ask".
-    Why: the real incident it comes from, with a link.
+    Why: the incident or the decision it comes from, with a link.
     Remind when a request mentions: word one, word two
 
-A rule nobody can point to an incident for doesn't go in. Suggestions (practices worth knowing, never enforced or
+A rule with neither an incident nor a written decision behind it doesn't go in as a rule. Suggestions (practices worth knowing, never enforced or
 repeated) go under SUGGESTIONS as plain bullets. Anyone can propose a change; only the repo owner can accept it.
-
-## For Darcy: the three things you will actually do
-
-1. Change a rule yourself: open `plugins/renaissance-rules/RULEBOOK.md` on GitHub, click the pencil, edit, save ("Commit changes"). Every new chat everywhere has it from then on.
-2. Accept a proposal: when someone proposes a change, GitHub emails you a "pull request". Open it, read the change, click "Merge". Nothing merges without your click.
-3. Let your own Claude Code do the typing: tell it "add a rule to our company rulebook: <what happened and what the rule is>". The repo's CLAUDE.md tells it the format; you still click Merge.
-
-Anyone can propose, whether through their own Claude Code, on GitHub, or by telling you. To see whether someone has the plugin, ask their Claude "which rulebook version do you have?"
 
 ## Tests
 

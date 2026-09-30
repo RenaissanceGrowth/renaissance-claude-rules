@@ -9,12 +9,12 @@ The one file almost every change touches: `plugins/renaissance-rules/RULEBOOK.md
 
 - A rule is exactly three lines, in this order, with no blank line between them:
   - `[R<n>] The rule in one sentence. If information is missing, tell Claude to ask.`
-  - `Why: the real incident it comes from, with a link.`
+  - `Why: the incident or the decision it comes from, with a link.` A manager's written decision counts; so does something that went wrong.
   - `Remind when a request mentions: word one, word two`
 - Number rules in order ([R1], [R2], ...). Never renumber or reuse an existing number.
 - Trigger words are lowercase, comma-separated, and name the action (not a whole topic): they decide when the rule is repeated in a chat, so keep them narrow.
-- A rule with no real incident behind it is a suggestion, not a rule: put it as a plain bullet under SUGGESTIONS instead. Suggestions have no trigger words and are never repeated.
-- Bump the Version line to today's date whenever the file changes.
+- A rule with neither an incident nor a decision behind it is a suggestion, not a rule: put it as a plain bullet under SUGGESTIONS instead. Suggestions have no trigger words and are never repeated.
+- Change the date on the Version line (line 2 of the file) to today whenever the file changes. The line says so itself.
 - Keep it short: about ten rules at most. Removing a rule is as normal as adding one.
 
 ## How a change reaches people
