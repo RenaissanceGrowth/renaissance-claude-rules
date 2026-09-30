@@ -32,6 +32,17 @@ none  "bulk-change wording gets nothing (a suggestion, not a rule)" "$(prompt_in
 none  "unrelated request gets nothing"      "$(prompt_in 'what is 2 plus 2' | rem)"
 none  "folder name alone never triggers"    "$(prompt_in 'hello there' | rem)"
 none  "garbage input, no crash"             "$(printf 'garbage' | rem)"
+echo "remind.sh: forgiving matching (a test rulebook with a two-word trigger)"
+mkdir -p "$HOME/.claude/renaissance-rules"
+printf 'RENAISSANCE RULEBOOK\nVersion: TEST\n\n[R1] Asana test rule.\nWhy: test.\nRemind when a request mentions: asana\n\n[R2] Never delete inboxes without an OK.\nWhy: test.\nRemind when a request mentions: delete inbox, remove mailbox\n' > "$HOME/.claude/renaissance-rules/RULEBOOK.md"
+has   "plural and a number in between"       "$(prompt_in 'please delete 300 inboxes in Funding 6' m1 | rem)" '[R2]'
+has   "-ing form, words apart"               "$(prompt_in 'we are deleting all the old inboxes today' m2 | rem)" '[R2]'
+has   "past tense, other order"              "$(prompt_in 'which inboxes got deleted yesterday' m3 | rem)" '[R2]'
+has   "second trigger, plural"               "$(prompt_in 'remove these mailboxes' m4 | rem)" '[R2]'
+none  "one word of two is not enough"        "$(prompt_in 'check my inbox folder' m5 | rem)"
+none  "unrelated request still quiet"        "$(prompt_in 'what is 2 plus 2' m6 | rem)"
+has   "single-word trigger unchanged"        "$(prompt_in 'open Asana' m7 | rem)" '[R1]'
+rm -f "$HOME/.claude/renaissance-rules/RULEBOOK.md"
 echo "remind.sh: the same rule at most once every 20 requests in a chat"
 has   "1st Asana request in a chat: R1"     "$(prompt_in 'asana one' chatA | rem)" '[R1]'
 none  "2nd Asana request, same chat: quiet" "$(prompt_in 'asana two' chatA | rem)"

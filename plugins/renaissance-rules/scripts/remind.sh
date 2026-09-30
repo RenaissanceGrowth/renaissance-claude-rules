@@ -1,19 +1,21 @@
 #!/bin/sh
 # Renaissance rules plugin, layer 2 of 2: reminders.
 #
-# When the user's request mentions a system (Asana, a campaign, Slack...), repeat the rules for that
-# system right then, so they are fresh in Claude's view at the moment they matter. The trigger words
-# sit next to each rule in RULEBOOK.md ("Remind when a request mentions: ..."), so the rulebook stays
-# the only file anyone edits.
+# When the user's request touches a rule's topic, repeat that rule right then, so it is fresh in
+# Claude's view at the moment it matters. The trigger words sit next to each rule in RULEBOOK.md
+# ("Remind when a request mentions: ..."), so the rulebook stays the only file anyone edits.
 #
-# The same rule is repeated at most once every 20 requests in a chat, so reminders stay rare enough
-# to be noticed (tuned against 30 days of real work: tests/replay.py). The full rulebook is also
-# reloaded whenever a long chat is compressed.
+# Matching is forgiving on purpose: a trigger like "delete inbox" fires when the request contains
+# both words in any order and in any form (deleting, deleted, inboxes), so a rule needs one or two
+# plain triggers, not a list of phrasings. Words are compared by a crude stem (delete/deleting/
+# deleted -> delet; inbox/inboxes -> inbox).
 #
-# Uses the latest rulebook fetched on this machine (see load-rulebook.sh), else the copy shipped with
-# the plugin. Blocks nothing. Plain POSIX sh plus grep, sed and awk. Always exits 0.
+# The same rule is repeated at most once every 20 requests in a chat. The full rulebook is also
+# reloaded whenever a long chat is compressed. Uses the latest rulebook fetched on this machine
+# (see load-rulebook.sh), else the copy shipped with the plugin. Blocks nothing.
+# Plain POSIX sh plus grep, sed and awk. Always exits 0.
 #
-# CREATED BY CLAUDE for david-Claude Code, 2026-09-24.
+# CREATED BY CLAUDE for david-Claude Code, 2026-09-24; matching by stems added 2026-09-30.
 
 GAP=20
 ROOT=$(cd "$(dirname "$0")/.." 2>/dev/null && pwd)
@@ -42,21 +44,31 @@ if [ -n "$sid" ]; then
 fi
 
 out=$(REQ="$request" PREV="$prev" COUNT="$count" GAP="$GAP" awk '
+  function stem(w) {
+    if (length(w) > 5 && w ~ /ing$/) w = substr(w, 1, length(w) - 3)
+    else if (length(w) > 4 && w ~ /(ed|es)$/) w = substr(w, 1, length(w) - 2)
+    else if (length(w) > 3 && w ~ /s$/) w = substr(w, 1, length(w) - 1)
+    if (length(w) > 4 && w ~ /e$/) w = substr(w, 1, length(w) - 1)
+    return w
+  }
   BEGIN {
-    RS = ""; req = tolower(ENVIRON["REQ"]); count = ENVIRON["COUNT"] + 0; gap = ENVIRON["GAP"] + 0
+    RS = ""; count = ENVIRON["COUNT"] + 0; gap = ENVIRON["GAP"] + 0
+    req = tolower(ENVIRON["REQ"]); gsub(/[^a-z0-9]+/, " ", req)
+    n = split(req, tok, " "); for (i = 1; i <= n; i++) if (tok[i] != "") have[stem(tok[i])] = 1
     np = split(ENVIRON["PREV"], pv, ",")
     for (k = 1; k <= np; k++) { split(pv[k], kv, ":"); if (kv[1] != "") last[kv[1]] = kv[2] + 0 }
   }
   /^\[R[0-9]+\]/ {
     id = $0; sub(/\].*/, "", id); sub(/^\[/, "", id)
-    n = split($0, lines, "\n"); words = ""
-    for (i = 1; i <= n; i++)
+    nl = split($0, lines, "\n"); words = ""
+    for (i = 1; i <= nl; i++)
       if (tolower(lines[i]) ~ /^remind when a request mentions:/) { words = lines[i]; sub(/^[^:]*:/, "", words) }
     if (words == "") next
-    m = split(tolower(words), w, ",")
+    m = split(tolower(words), trig, ",")
     for (j = 1; j <= m; j++) {
-      gsub(/^[ \t]+|[ \t]+$/, "", w[j])
-      if (w[j] != "" && index(req, w[j])) {
+      t = trig[j]; gsub(/[^a-z0-9]+/, " ", t); nw = split(t, tw, " "); hit = 0; need = 0
+      for (x = 1; x <= nw; x++) if (tw[x] != "") { need++; if (stem(tw[x]) in have) hit++ }
+      if (need > 0 && hit == need) {
         if (!(id in last) || count - last[id] >= gap) { print $0; print ""; last[id] = count }
         break
       }
