@@ -17,6 +17,7 @@ The one file almost every change touches: `plugins/renaissance-rules/RULEBOOK.md
 - A rule with neither an incident nor a decision behind it is a suggestion, not a rule: put it as a plain bullet under SUGGESTIONS instead. Suggestions have no trigger words and are never repeated.
 - Change the date on the Version line (line 2 of the file) to today whenever the file changes. The line says so itself.
 - Keep it short: about ten rules at most. Removing a rule is as normal as adding one.
+- This repo is public. In a Why line, link to the internal thread and keep the story out: no customer or vendor names, no volumes, no complaint details. The link is for the owner; outsiders cannot open it.
 
 ## How a change reaches people
 

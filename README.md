@@ -31,7 +31,7 @@ Edit `plugins/renaissance-rules/RULEBOOK.md` on GitHub. Each rule is three lines
     Why: the incident or the decision it comes from, with a link.
     Remind when a request mentions: delete inbox, remove mailbox
 
-A trigger is one or two plain words naming the action; it fires when all its words appear in a request, in any form (deleting, inboxes). A rule with neither an incident nor a written decision behind it doesn't go in as a rule. Suggestions (practices worth knowing, never enforced or
+A trigger is one or two plain words naming the action; it fires when all its words appear in a request, in any form (deleting, inboxes). A rule with neither an incident nor a written decision behind it doesn't go in as a rule. The repo is public, so a Why line links to the internal thread and leaves the story, names and numbers out. Suggestions (practices worth knowing, never enforced or
 repeated) go under SUGGESTIONS as plain bullets. Anyone can propose a change; only the repo owner can accept it.
 
 ## Tests

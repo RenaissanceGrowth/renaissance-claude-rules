@@ -14,4 +14,5 @@ Remind when a request mentions: asana
 
 SUGGESTIONS
 These are not rules. Nothing enforces or repeats them; they are practices worth knowing.
-- Before a bulk change to inboxes, tags or campaigns, it helps to say how many items will change and what that does to sending, and to check that this is wanted. On 18 Sep one change reset the daily limits and warm-up of 3,782 inboxes at once; on 25 Sep a tag added to 6,984 un-warmed mailboxes put them into a campaign that sent 117,687 cold emails and drew a spam complaint.
+(This file is public. In Why lines and here, link to the internal thread rather than telling the story, and keep names and numbers out.)
+- Before a bulk change to inboxes, tags or campaigns, it helps to say how many items will change and what that does to sending, and to check that this is wanted. It went wrong twice in September: once a change reset the limits and warm-up of thousands of inboxes at once, once a tag put thousands of unwarmed mailboxes into a live campaign.

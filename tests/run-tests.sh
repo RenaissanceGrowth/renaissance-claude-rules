@@ -35,7 +35,7 @@ none  "garbage input, no crash"             "$(printf 'garbage' | rem)"
 echo "remind.sh: forgiving matching (a test rulebook with a two-word trigger)"
 mkdir -p "$HOME/.claude/renaissance-rules"
 printf 'RENAISSANCE RULEBOOK\nVersion: TEST\n\n[R1] Asana test rule.\nWhy: test.\nRemind when a request mentions: asana\n\n[R2] Never delete inboxes without an OK.\nWhy: test.\nRemind when a request mentions: delete inbox, remove mailbox\n' > "$HOME/.claude/renaissance-rules/RULEBOOK.md"
-has   "plural and a number in between"       "$(prompt_in 'please delete 300 inboxes in Funding 6' m1 | rem)" '[R2]'
+has   "plural and a number in between"       "$(prompt_in 'please delete 300 inboxes in that workspace' m1 | rem)" '[R2]'
 has   "-ing form, words apart"               "$(prompt_in 'we are deleting all the old inboxes today' m2 | rem)" '[R2]'
 has   "past tense, other order"              "$(prompt_in 'which inboxes got deleted yesterday' m3 | rem)" '[R2]'
 has   "second trigger, plural"               "$(prompt_in 'remove these mailboxes' m4 | rem)" '[R2]'
