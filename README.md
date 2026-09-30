@@ -30,6 +30,14 @@ Edit `plugins/renaissance-rules/RULEBOOK.md` on GitHub. Each rule is three lines
 A rule nobody can point to an incident for doesn't go in. Suggestions (practices worth knowing, never enforced or
 repeated) go under SUGGESTIONS as plain bullets. Anyone can propose a change; only the repo owner can accept it.
 
+## For Darcy: the three things you will actually do
+
+1. Change a rule yourself: open `plugins/renaissance-rules/RULEBOOK.md` on GitHub, click the pencil, edit, save ("Commit changes"). Every new chat everywhere has it from then on.
+2. Accept a proposal: when someone proposes a change, GitHub emails you a "pull request". Open it, read the change, click "Merge". Nothing merges without your click.
+3. Let your own Claude Code do the typing: tell it "add a rule to our company rulebook: <what happened and what the rule is>". The repo's CLAUDE.md tells it the format; you still click Merge.
+
+Anyone can propose, whether through their own Claude Code, on GitHub, or by telling you. To see whether someone has the plugin, ask their Claude "which rulebook version do you have?"
+
 ## Tests
 
     sh tests/run-tests.sh                 # 24 cases
