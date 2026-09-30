@@ -1,19 +1,19 @@
 #!/bin/sh
-# Renaissance rules plugin, layer 1 of 3: load the company rulebook into Claude.
+# Renaissance rules plugin, layer 1 of 2: load the company rulebook into Claude.
 #
 # Runs at the start of every chat, and again after /clear, on resume, and whenever a long chat is
 # compressed, so the rules never drop out of Claude's view.
 #
 # Reads the LATEST rulebook from GitHub (gives up after 3 seconds). If GitHub can't be reached, it
 # uses the last copy fetched on this machine, and if there is none, the copy that shipped with the
-# plugin. It always tells Claude which copy it is using, and whether the hard checks work here.
+# plugin. It always tells Claude which copy it is using.
 #
 # Plain POSIX sh plus curl: runs on macOS, Linux, and Windows through Git Bash. It never blocks
 # anything and always exits 0.
 #
-# CREATED BY CLAUDE for david-Claude Code, 2026-09-24.
+# CREATED BY CLAUDE for david-Claude Code, 2026-09-24; trimmed 2026-09-30.
 
-URL="${RR_RULEBOOK_URL:-https://raw.githubusercontent.com/RenaissanceGrowth/renaissance-claude-rules/main/plugins/renaissance-rules/RULEBOOK.md}"
+URL="${RR_RULEBOOK_URL:-https://raw.githubusercontent.com/darcyhi/renaissance-claude-rules/main/plugins/renaissance-rules/RULEBOOK.md}"
 ROOT=$(cd "$(dirname "$0")/.." 2>/dev/null && pwd)
 BUNDLED="$ROOT/RULEBOOK.md"
 CACHE_DIR="${RR_CACHE_DIR:-${HOME:-.}/.claude/renaissance-rules}"
@@ -48,12 +48,5 @@ case "$fresh" in
     fi ;;
 esac
 
-# Self-test: feed the hard-check script an action it must block. If it doesn't, say so.
-selftest=$(printf '{"tool_name":"Bash","tool_input":{"command":"cat .env"}}' | sh "$ROOT/scripts/check.sh" 2>/dev/null)
-case "$selftest" in
-  *'"deny"'*) checks="Hard checks: on." ;;
-  *) checks="Hard checks: NOT WORKING on this machine. Tell the user this once, in plain words." ;;
-esac
-
-printf '[Renaissance company rulebook: %s. %s]\n\n%s\n' "$src" "$checks" "$body"
+printf '[Renaissance company rulebook: %s.]\n\n%s\n' "$src" "$body"
 exit 0

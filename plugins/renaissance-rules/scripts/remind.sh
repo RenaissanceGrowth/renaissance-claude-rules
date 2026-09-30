@@ -1,5 +1,5 @@
 #!/bin/sh
-# Renaissance rules plugin, layer 2 of 3: reminders.
+# Renaissance rules plugin, layer 2 of 2: reminders.
 #
 # When the user's request mentions a system (Asana, a campaign, Slack...), repeat the rules for that
 # system right then, so they are fresh in Claude's view at the moment they matter. The trigger words

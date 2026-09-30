@@ -5,9 +5,6 @@
     ],
     "UserPromptSubmit": [
       { "hooks": [ { "type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/remind.sh\"", "timeout": 5 } ] }
-    ],
-    "PreToolUse": [
-      { "matcher": "Bash|Read|mcp__.*[Ss]lack.*", "hooks": [ { "type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/check.sh\"", "timeout": 5 } ] }
     ]
   }
 }

@@ -1,5 +1,7 @@
 {
   "name": "renaissance-rules",
-  "description": "Renaissance company rules for Claude Code: rulebook, reminders, and two hard checks.",
-  "author": { "name": "Renaissance Growth" }
+  "description": "Renaissance company rules for Claude Code: the shared rulebook at the start of every chat, and reminders when a request touches a rule's topic.",
+  "author": {
+    "name": "Renaissance Growth"
+  }
 }
