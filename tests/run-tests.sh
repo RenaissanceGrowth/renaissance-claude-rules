@@ -27,6 +27,7 @@ prompt_in() { printf '{"session_id":"%s","cwd":"/Users/x/slack-exports","hook_ev
 chk() { sh "$S/check.sh"; }
 rem() { sh "$S/remind.sh"; }
 KC="security find-generic-password"
+furl() { case "$(uname -s)" in MINGW*|MSYS*|CYGWIN*) printf 'file:///%s' "$(cygpath -m "$1")" ;; *) printf 'file://%s' "$1" ;; esac; }
 
 echo "check.sh: must catch"
 has  "keychain print with -w"              "$(bash_in "$KC -s svc -w" | chk)" '"deny"'
@@ -89,21 +90,21 @@ has   "a new chat gets R1 right away"      "$(prompt_in 'asana' chatB | rem)" '[
 
 echo "load-rulebook.sh"
 LIVE="$TMP/live.md"; printf 'RENAISSANCE RULEBOOK\nVersion: LIVE-TEST\n' > "$LIVE"
-out=$(RR_RULEBOOK_URL="file://$LIVE" sh "$S/load-rulebook.sh" </dev/null)
+out=$(RR_RULEBOOK_URL="$(furl "$LIVE")" sh "$S/load-rulebook.sh" </dev/null)
 has   "reachable: uses the live copy"      "$out" 'Version: LIVE-TEST'
 has   "reachable: says it is live"         "$out" 'read live from GitHub'
 has   "self-test reports checks on"        "$out" 'Hard checks: on.'
 # The live test copy holds no [R] rules, so reminders drawn from it must be empty: proves they read the latest copy.
 none  "reminders read the latest fetched copy" "$(prompt_in 'asana please' chatC | rem)"
-out=$(RR_RULEBOOK_URL="file://$TMP/missing.md" sh "$S/load-rulebook.sh" </dev/null)
+out=$(RR_RULEBOOK_URL="$(furl "$TMP/missing.md")" sh "$S/load-rulebook.sh" </dev/null)
 has   "unreachable: uses last fetched"     "$out" 'Version: LIVE-TEST'
 has   "unreachable: says so"               "$out" 'last copy fetched on this machine'
 rm -f "$HOME/.claude/renaissance-rules/RULEBOOK.md"
-out=$(RR_RULEBOOK_URL="file://$TMP/missing.md" sh "$S/load-rulebook.sh" </dev/null)
+out=$(RR_RULEBOOK_URL="$(furl "$TMP/missing.md")" sh "$S/load-rulebook.sh" </dev/null)
 has   "no cache: uses shipped copy"        "$out" 'copy that shipped with the plugin'
 has   "no cache: shipped copy content"     "$out" '[R1]'
 printf '<html>404 Not Found</html>\n' > "$TMP/bad.md"
-out=$(RR_RULEBOOK_URL="file://$TMP/bad.md" sh "$S/load-rulebook.sh" </dev/null)
+out=$(RR_RULEBOOK_URL="$(furl "$TMP/bad.md")" sh "$S/load-rulebook.sh" </dev/null)
 lacks "a page without the marker is never loaded" "$out" '404 Not Found'
 has   "and the shipped copy is used instead"      "$out" '[R1]'
 
